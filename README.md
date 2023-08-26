@@ -4,4 +4,4 @@ A rock-paper-scissors game made with HTML,CSS and JavaScript.This is my solution
 •Animating elements
 •Using Callbacks
 
-live preview: https://StathisKotanidis.github.io/rock-paper-scissors
+live preview: http://StathisKotanidis.github.io/rock-paper-scissors
