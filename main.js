@@ -1,64 +1,81 @@
-
-function getPlayerChoice() {
-
-    let playerWeapon = prompt("Select your weapon!").toUpperCase();
-
-    while (playerWeapon != 'ROCK' && playerWeapon != 'PAPER' && playerWeapon != 'SCISSORS') {
-
-        playerWeapon = prompt("Select a valid weapon").toUpperCase();
-    }
-    return playerWeapon;
-}
+let option1 = document.querySelector('#fist')
+let option2 = document.querySelector('#scissors')
+let option3 = document.querySelector('#hand')
+let update = document.querySelector('#score-update')
+let plScore = document.querySelector('#player-score')
+let compScore = document.querySelector('#computer-score')
+let winner = document.querySelector('#winner')
+let isgameOver = false;
 
 function getComputersChoice() {
-
-    let options = ["ROCK", "PAPER", "SCISSORS"];
-    return options[Math.floor(Math.random() * options.length)];
+    let options = ["ROCK", "PAPER", "SCISSORS"]
+    return options[Math.floor(Math.random() * options.length)]
 }
 
-//let playerChoice = getPlayerChoice();
-//let computerChoice = getComputersChoice();
+function game(playerChoice) {
 
-function game() {
+    let computerChoice = getComputersChoice()
 
-    let playerScore = 0;
-    let computerScore = 0;
+    if (playerChoice === computerChoice) {
+        update.textContent = `It's a draw. You chose ${playerChoice}, computer chose ${computerChoice}`
+    } else if (
+        (playerChoice === "ROCK" && computerChoice === "SCISSORS") ||
+        (playerChoice === "PAPER" && computerChoice === "ROCK") ||
+        (playerChoice === "SCISSORS" && computerChoice === "PAPER")
+    ) {
+        plScore.textContent = parseInt(plScore.textContent) + 1
+        update.textContent = `You won this round! You chose ${playerChoice}, computer chose ${computerChoice}`
 
-    for (let i = 1; i <= 5; i++) {
-
-        playerPick = getPlayerChoice();
-        console.log(playerPick);
-        computerPick = getComputersChoice();
-        console.log(computerPick);
-        console.log("---------------------------------------------------")
-
-        if (playerPick == "ROCK" && computerPick == "ROCK" || playerPick == "PAPER" && computerPick == "PAPER" || playerPick == "SCISSORS" && computerPick == "SCISSORS") {
-            console.log("Its a draw");
-        } else if (playerPick == "ROCK" && computerPick == "SCISSORS" || playerPick == "PAPER" && computerPick == "ROCK" || playerPick == "SCISSORS" && computerPick == "PAPER") {
-            playerScore += 1;
-            console.log("You won this round!");
-        } else {
-            computerScore += 1;
-            console.log("Computer won this round :(");
-        }
-
-        console.log("Player score is: " + playerScore);
-        console.log("Computer score is: " + computerScore);
-        console.log("\n");
-
-    }
-
-    if (playerScore > computerScore) {
-        console.log("Player Won!");
-    } else if (computerScore > playerScore) {
-        console.log("Computer won :(");
     } else {
-        console.log("Its a draw..");
+        compScore.textContent = parseInt(compScore.textContent) + 1
+        update.textContent = `Computer won this round. You chose ${playerChoice}, computer chose ${computerChoice}`
+
     }
 
+    if (parseInt(plScore.textContent) == 5) {
+        winner.textContent = "Congratulations, you won!"
+        setTimeout(newGame, 100);
+
+    } else if (parseInt(compScore.textContent) == 5) {
+
+        winner.textContent = "Computer won!"
+        setTimeout(newGame, 100);
+    }
 }
 
-console.log(game());
+function getPlayerChoice(event) {
+
+    let playerChoice;
+    if (event.target === option1) {
+        playerChoice = 'ROCK';
+    } else if (event.target === option2) {
+        playerChoice = 'SCISSORS';
+    } else if (event.target === option3) {
+        playerChoice = 'PAPER';
+    } else {
+        console.log('Invalid pick');
+        return;
+    }
+    game(playerChoice);
+}
+
+function newGame() {
+
+    let confirmation = confirm('New game?')
+
+    if (confirmation == true) {
+        plScore.textContent = '0'
+        compScore.textContent = '0'
+        winner.textContent = ' '
+        update.textContent = ' '
+    } else {
+        window.close()
+    }
+}
+option1.addEventListener('click', getPlayerChoice)
+option2.addEventListener('click', getPlayerChoice)
+option3.addEventListener('click', getPlayerChoice)
+
 
 
 
